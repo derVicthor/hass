@@ -1,0 +1,189 @@
+- id: motion_bedroom_light_on
+  alias: 'SENSOR: Bedroom On'
+  trigger:
+  - entity_id: binary_sensor.bedroom
+    platform: state
+    to: 'on'
+  condition:
+  - after: 08:00
+    before: 00:00
+    condition: time
+  - below: '5'
+    condition: numeric_state
+    entity_id: sensor.lightlevel_2
+  - condition: state
+    entity_id: light.0420012368c63ab71b3c
+    state: 'off'
+  action:
+  - data:
+      brightness: 255
+      entity_id: light.bed
+      transition: 15
+    entity_id: light.bed
+    service: homeassistant.turn_on
+  initial_state: 'on'
+- id: motion_bedroom_light_off
+  alias: 'SENSOR: Bedroom Off'
+  trigger:
+  - entity_id: binary_sensor.bedroom
+    for:
+      minutes: 5
+    platform: state
+    to: 'off'
+  condition:
+  - condition: state
+    entity_id: light.bed
+    state: 'on'
+  action:
+  - data:
+      entity_id: light.bed
+      transition: 15
+    entity_id: light.bed
+    service: homeassistant.turn_off
+  initial_state: 'on'
+- id: '1540237111440'
+  alias: 'VACUUM: when everybody left'
+  trigger:
+  - entity_id: group.all_devices
+    for:
+      minutes: 10
+    platform: state
+    to: not_home
+  condition:
+  - condition: state
+    entity_id: input_boolean.vacuumed_today
+    state: 'off'
+  action:
+  - data:
+      entity_id: group.all_vacuum_cleaners
+    service: vacuum.start
+  - data:
+      entity_id: input_boolean.vacuumed_today
+    service: input_boolean.turn_on
+  - data:
+      message: We are cleaning, master.
+      title: VACUUM
+    service: notify.ios_fat_navi
+  initial_state: 'on'
+- id: '1540238177154'
+  alias: 'NOTIFY: Home Kürş'
+  trigger:
+  - entity_id: device_tracker.myphone_2
+    from: not_home
+    platform: state
+    to: home
+  condition:
+  - condition: state
+    entity_id: device_tracker.fatnavi
+    state: not_home
+  action:
+  - data:
+      message: Kürsi got home
+      title: All is good
+    service: notify.ios_fat_navi
+  initial_state: 'on'
+- id: '1540238250346'
+  alias: 'NOTIFY: Home Victor'
+  trigger:
+  - entity_id: device_tracker.fatnavi
+    from: not_home
+    platform: state
+    to: home
+  condition:
+  - condition: state
+    entity_id: device_tracker.myphone_2
+    state: not_home
+  action:
+  - data:
+      message: Victor got home
+      title: All is good
+    service: notify.ios_myphone
+  initial_state: 'on'
+- id: '1540239998196'
+  alias: 'SYSTEM: Enable Fluxer'
+  trigger:
+  - event: start
+    platform: homeassistant
+  condition: []
+  action:
+  - alias: ''
+    data:
+      entity_id: switch.fluxer_hue
+    service: switch.turn_on
+  - data:
+      entity_id: switch.fluxer_rgb
+    service: switch.turn_on
+  initial_state: 'on'
+- id: '1540297043762'
+  alias: 'NOTIFY: Home Mom'
+  trigger:
+  - entity_id: device_tracker.iphonevonpetrap
+    from: not_home
+    platform: state
+    to: home
+  condition: []
+  action:
+  - data:
+      message: Mom got home
+      title: Family alert
+    service: notify.ios_fat_navi
+  initial_state: 'on'
+- id: '1540368904596'
+  alias: 'Lights Çigdem: ON'
+  trigger:
+  - entity_id: device_tracker.pc19216817824
+    platform: state
+    to: home
+  condition: []
+  action:
+  - service: light.turn_on
+  initial_state: 'on'
+- id: '1540369075913'
+  alias: 'Lights Çigdem: OFF'
+  trigger:
+  - entity_id: device_tracker.pc19216817824
+    platform: state
+    to: not_home
+  condition: []
+  action:
+  - service: light.turn_off
+  initial_state: 'on'
+- id: '1540406105304'
+  alias: 'LIGHTS: on when home or arriving'
+  trigger:
+  - entity_id: group.all_devices
+    platform: state
+    to: home
+  - event: sunset
+    offset: -01:00:00
+    platform: sun
+  condition:
+  - condition: state
+    entity_id: group.all_devices
+    state: home
+  - after: '16:00'
+    before: '23:00'
+    condition: time
+  action:
+  - service: light.turn_on
+- id: '1540476724232'
+  alias: 'VACUUM: reset vacuumed_today state'
+  trigger:
+  - at: 08:00:00
+    platform: time
+  condition: []
+  action:
+  - data:
+      entity_id: input_boolean.vacuumed_today
+    service: input_boolean.turn_off
+- id: '1540477157070'
+  alias: 'LIGHTS: off when everybody left'
+  trigger:
+  - entity_id: group.all_devices
+    for:
+      minutes: 10
+    platform: state
+    to: not_home
+  condition: []
+  action:
+  - service: light.turn_off

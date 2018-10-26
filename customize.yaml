@@ -1,0 +1,59 @@
+sensor.yr_symbol:
+  friendly_name: Weather
+group.all_lights:
+  friendly_name: All Lights
+group.all_switches:
+  friendly_name: All Switches
+switch.cigdem_schedule:
+  hidden: true
+switch.jamze_schedule:
+  hidden: true
+switch.fluxer_hue:
+  hidden: true
+switch.fluxer_rgb:
+  hidden: true
+light.sofa:
+  friendly_name: Sofa
+  icon: mdi:floor-lamp
+switch.0220008568c63a9709bb:
+  friendly_name: HASS
+  hidden: true
+  icon: mdi:raspberrypi
+light.0320006968c63ab2435b:
+  icon: mdi:lamp
+switch.bedilator:
+  icon: mdi:fan
+light.essen:
+  icon: mdi:ceiling-light
+media_player.echo:
+  icon: mdi:amazon-alexa
+media_player.echo_dot:
+  icon: mdi:amazon-alexa
+light.aufgang:
+  icon: mdi:ceiling-light
+media_player.uberall:
+  icon: mdi:music
+light.boden:
+  icon: mdi:led-strip
+light.0420012368c63ab71b3c:
+  icon: mdi:lava-lamp
+light.0320006968c63ab23e7f:
+  icon: mdi:lava-lamp
+switch.022001685ccf7f73ce55:
+  icon: mdi:spotlight-beam
+light.strips:
+  icon: mdi:television
+light.schreibtisch:
+  icon: mdi:ceiling-light
+light.treppe:
+  icon: mdi:stairs
+switch.03200019b4e62d071150:
+  icon: mdi:power-plug
+light.arbeiten:
+  hidden: true
+light.essen_2:
+  hidden: true
+light.wohnen:
+  hidden: true
+input_boolean.vacuumed_today:
+  hidden: true

@@ -1,0 +1,88 @@
+  default_view:
+    name: HOME
+    view: yes
+    entities:
+      - device_tracker.fatnavi
+      - device_tracker.myphone_2
+      - device_tracker.iphonevonpetrap
+      - device_tracker.pc19216817824
+      - sensor.yr_symbol
+      - group.climate
+      - weather.openweathermap
+      - group.all_lights
+      - group.all_switches
+      - media_player.everywhere
+  downstairs:
+    name: DOWNSTAIRS
+    view: yes
+    entities:
+      - group.entrance
+      - group.bathroom
+      - group.living_room
+      - group.dining_room
+      - climate.heat_bathroom
+      - camera.cigdem_cleaning_map
+  upstairs:
+    name: UPSTAIRS
+    view: yes
+    entities:
+      - group.bedroom
+      - group.office
+      - camera.jamze_cleaning_map
+      - camera.bedroom
+      - camera.office
+  entrance:
+    name: Entrance
+    view: no
+    entities:
+      - switch.022001685ccf7f73ce55
+      - climate.heat_entry
+  living_room:
+    name: Living Room
+    view: no
+    entities:
+      - light.sofa
+      - light.boden
+      - light.treppe
+      - light.strips
+      - light.0320006968c63ab23e7f
+      - climate.heat_living_room_
+      - media_player.echo
+  dining_room:
+    name: Dining Room
+    view: no
+    entities:
+      - light.essen
+      - light.0320006968c63ab2435b
+  bathroom:
+    name: Bathroom
+    view: no
+    entities:
+      - climate.heat_bathroom
+  bedroom:
+    name: Bedroom
+    view: no
+    entities:
+      - light.0420012368c63ab71b3c
+      - light.bed
+      - climate.heat_bedroom
+      - switch.bedilator
+      - media_player.echo_dot
+  office:
+    name: Office
+    view: no
+    entities:
+      - light.table
+      - light.aufgang
+      - climate.heat_office
+      - switch.03200019b4e62d071150
+      - switch.0220008568c63a9709bb
+  climate:
+    name: Climate
+    view: no
+    entities:
+      - climate.heat_bathroom
+      - climate.heat_bedroom
+      - climate.heat_entry
+      - climate.heat_living_room_
+      - climate.heat_office

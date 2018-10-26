@@ -1,0 +1,212 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Home
+  # Location required to calculate the time the sun rises and sets
+  latitude: 48.121307
+  longitude: 11.627613
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: 5
+  # metric for Metric, imperial for Imperial
+  unit_system: metric
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: CET
+  # Customization file
+  customize: !include customize.yaml
+  auth_providers:
+    - type: homeassistant
+    - type: legacy_api_password
+
+http:
+  api_password: !secret http_password
+
+# Show links to resources in log and frontend
+# introduction:
+
+# Enables the frontend
+frontend:
+
+# Enables configuration UI
+config:
+
+# Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+# http:
+#   base_url: example.duckdns.org:8123
+
+# Checks for available updates
+# Note: This component will send some information about your system to
+# the developers to assist with development of Home Assistant.
+# For more information, please see:
+# https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
+updater:
+# include_used_components: true
+
+# Discover some devices automatically
+discovery:
+  ignore:
+    - apple_tv
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+conversation:
+
+# Enables support for tracking state changes over time
+history:
+
+# View all events in a logbook
+logbook:
+
+# Enables a map showing the location of tracked devices
+map:
+
+# Track the sun
+sun:
+
+# Weather prediction
+sensor:
+  - platform: yr
+  - platform: pocketcasts
+    username: !secret email_address
+    password: !secret pocketcasts_password
+
+weather:
+  - platform: openweathermap
+    api_key: !secret openweathermap_api_key
+
+
+# Text to speech
+tts:
+  - platform: google
+
+# Cloud
+cloud:
+  alexa:
+    filter:
+      include_domains:
+        - switch
+        - climate
+        - light
+      exclude_entities:
+        - switch.cigdem_schedule
+        - switch.jamze_schedule
+        - switch.fluxer_hue
+        - switch.fluxer_rgb
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+
+fritzbox:
+  devices:
+    - host: fritz.box
+      username: victor
+      password: !secret fritzbox_password
+
+light:
+  - platform: flux_led
+    devices:
+      192.168.178.51:
+        name: Treppe
+tuya:
+  username: !secret email_address
+  password: !secret tuya_password
+  country_code: 49
+
+switch:
+  - platform: tplink
+    host: 192.168.178.112
+    name: Bedilator
+
+  - platform: flux
+    lights:
+      - light.0420012368c63ab71b3c
+      - light.0320006968c63ab2435b
+      - light.0320006968c63ab23e7f
+      - light.Treppe
+    name: Fluxer RGB
+    start_time: '8:00'
+    stop_time: '00:00'
+    start_colortemp: 4000
+    sunset_colortemp: 3000
+    stop_colortemp: 1000
+    brightness: 200
+    mode: xy
+    transition: 30
+    interval: 60
+
+  - platform: flux
+    lights:
+      - light.sofa
+      - light.essen
+      - light.boden
+      - light.strips
+    name: Fluxer Hue
+    start_time: '8:00'
+    stop_time: '00:00'
+    start_colortemp: 4000
+    sunset_colortemp: 3000
+    stop_colortemp: 1000
+    brightness: 200
+    mode: mired
+    transition: 30
+    interval: 60
+
+homekit:
+  filter:
+    exclude_domains:
+      - device_tracker
+      - media_player
+      - automation
+    exclude_entities:
+      - switch.cigdem_schedule
+      - switch.jamze_schedule
+      - switch.fluxer_hue
+      - switch.fluxer_rgb
+      - light.essen_2
+      - light.wohnen
+      - light.arbeiten
+      - switch.0220008568c63a9709bb
+      - input_boolean.vacuumed_today
+neato:
+  username: !secret email_address
+  password: !secret neato_password
+
+camera:
+  - platform: ffmpeg
+    name: Bedroom
+    input: rtsp://192.168.178.134:8554/unicast
+    extra_arguments: '-vf scale=800:450'
+
+  - platform: ffmpeg
+    name: Office
+    input: rtsp://192.168.178.135:8554/unicast
+    extra_arguments: '-vf scale=800:450'
+
+ios:
+device_tracker:
+  - platform: fritz
+    host: 192.168.178.1
+    interval_seconds: 60
+    consider_home: 300
+    new_device_defaults:
+      track_new_devices: true
+      hide_if_away: true
+
+input_boolean:
+  vacuumed_today:
+    name: Already vacuumed
+    initial: on
+    icon: mdi:robot-vacuum-variant
+
+media_player:
+  - platform: webostv
+    name: Living Room TV
+    host: 192.168.178.162
+    filename: webostv.conf
+    customize:
+      sources:
+        - livetv
+        - youtube
+        - netflix
+    turn_on_action:
+      service: wake_on_lan.send_magic_packet
+      data:
+        mac: "38-8C-50-B8-19-27"

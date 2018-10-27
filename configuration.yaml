@@ -63,10 +63,6 @@ sun:
 # Weather prediction
 sensor:
   - platform: yr
-  - platform: pocketcasts
-    username: !secret email_address
-    password: !secret pocketcasts_password
-
 weather:
   - platform: openweathermap
     api_key: !secret openweathermap_api_key
@@ -210,3 +206,4 @@ media_player:
       service: wake_on_lan.send_magic_packet
       data:
         mac: "38-8C-50-B8-19-27"
+wake_on_lan:

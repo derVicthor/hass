@@ -22,6 +22,7 @@
       - group.dining_room
       - climate.heat_bathroom
       - camera.cigdem_cleaning_map
+      - media_player.living_room_tv
   upstairs:
     name: UPSTAIRS
     view: yes
